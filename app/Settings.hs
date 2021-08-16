@@ -8,10 +8,12 @@ import Data.String (IsString)
 
 mySettings :: Settings
 mySettings = Settings
-  { proteins = ["steak", "pork", "chicken", "tofu"]
-  , carbs = ["rice", "rice noodles", "homemade noodles", "quinoa", "cous cous"]
-  , veggies = ["broccoli", "brussel sprouts", "asparagus", "onions and mushrooms"]
-  , recipes = ["ravioli and peas", "stir fry"]
+  { proteins = ["steak", "pork", "chicken", "tofu", "scallops", "salmon", "tuna", "ground beef", "sausage", "egg"]
+  , carbs = ["rice", "rice noodles", "homemade noodles", "quinoa", "cous cous", "roasted potatoes", "tater tots", "mashed potatoes", "baked potatoes"]
+  , veggies = ["broccoli", "brussel sprouts", "asparagus", "onions and mushrooms", "side salad", "zucchini", "squash"]
+  , recipes =
+    [ "ravioli and peas", "stir fry", "pizza", "trader joe's fried rice", "trader joe's orange chicken", "salad", "cream of mushroom soup", "quesadillas", "black bean burger", "veggie burger", "beef burger", "portabella burger"
+    , "fajitas", "sushi", "tortilla soup", "butternut squash soup" ]
   }
 
 newtype Protein = Protein { unProtein :: String }

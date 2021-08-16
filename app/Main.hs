@@ -1,3 +1,6 @@
+{-# LANGUAGE FlexibleContexts #-}
+{-# LANGUAGE TypeApplications #-}
+{-# LANGUAGE ScopedTypeVariables #-}
 {-# LANGUAGE LambdaCase #-}
 {-# LANGUAGE BlockArguments #-}
 {-# LANGUAGE GeneralizedNewtypeDeriving #-}
@@ -6,6 +9,7 @@
 module Main where
 
 import Data.String (IsString)
+import Data.Coerce (coerce, Coercible)
 import System.Random (randomRIO)
 import Options.Applicative
 import Settings
@@ -44,8 +48,9 @@ parser = flip info mods . hsubparser . mconcat $
   , command "any" (info any (progDesc "Outputs a completely random dinner idea"))
   ]
   where
-    o x p p' = option ((Just . x) <$> str) (long p <> short p' <> value Nothing)
-    pvc = ProteinVeggieCarb <$> o Protein "protein" 'p' <*> o Veggie "veggie" 'v' <*> o Carb "carb" 'c'
+    o :: forall x. (SettingsLists x, Coercible String x, Coercible x String) => String -> Char -> Parser (Maybe x)
+    o p p' = option ((Just @x . coerce @String @x) <$> str) (long p <> short p' <> value (Nothing @x) <> completeWith (map coerce $ listing @x (withSettings id)))
+    pvc = ProteinVeggieCarb <$> o @Protein "protein" 'p' <*> o @Veggie "veggie" 'v' <*> o @Carb "carb" 'c'
     recipe = pure Recipe
     any = pure Anything
     mods = header "Generate Dinner Ideas" <> footer "Copyright 2021 (c) Samuel Schlesinger" <> progDesc "Outputs dinner ideas from a list of recipes as well as lists of proteins, veggies, and carbs"

@@ -1,0 +1,3 @@
+#!/bin/bash
+
+cabal install --installdir=/usr/local/bin --overwrite-policy=always
