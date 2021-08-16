@@ -52,4 +52,4 @@ withSettings :: (Settings -> a) -> a
 withSettings f = f mySettings
 
 carbProteinVeggie :: Carb -> Protein -> Veggie -> DinnerIdea
-carbProteinVeggie (Carb c) (Protein p) (Veggie v) = DinnerIdea $ "{ carb: " <> c <> ", protein: " <> p <> ", veggie: " <> v <> "}" 
+carbProteinVeggie (Carb c) (Protein p) (Veggie v) = DinnerIdea $ p <> " and " <> v <> " over " <> c

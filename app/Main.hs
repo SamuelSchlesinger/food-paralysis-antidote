@@ -16,12 +16,17 @@ data Command =
   | Anything
 
 main :: IO ()
-main = withSettings \settings -> execParser parser >>= program settings where
+main = withSettings \settings -> customExecParser ps parser >>= program settings where
   program :: Settings -> Command -> IO ()
   program settings c = do
     let is = dinnerIdeas settings c 
     i <- randomRIO (0, length is)
     putStrLn . unDinnerIdea $ is !! i
+  ps :: ParserPrefs
+  ps = prefs . mconcat $
+    [ disambiguate
+    , showHelpOnError
+    ]
     
 dinnerIdeas :: Settings -> Command -> [DinnerIdea]
 dinnerIdeas settings = \case
